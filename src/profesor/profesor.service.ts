@@ -30,7 +30,7 @@ export class ProfesorService {
         return await this.profesorRepository.findOne({ where: { id: id }, relations: ['propuestas'] });
       }
         
-      async deleteProefsorById(id: number): Promise<String> {
+      async deleteProfesorById(id: number): Promise<String> {
         const profesor: ProfesorEntity = await this.profesorRepository.findOne({where: {id: id}, relations: ['propuestas']})
         const propuestas = profesor.propuestas
         for ( let i = 0; i < propuestas.length; i++ ) {
@@ -44,7 +44,7 @@ export class ProfesorService {
         return "Profesor " + id + " eliminado"
       }
 
-      async deleteProefsorByCedula(cedula: number): Promise<String> {
+      async deleteProfesorByCedula(cedula: number): Promise<String> {
         const profesor: ProfesorEntity = await this.profesorRepository.findOne({where: {cedula: cedula}, relations: ['propuestas']})
         const propuestas = profesor.propuestas
         for ( let i = 0; i < propuestas.length; i++ ) {
