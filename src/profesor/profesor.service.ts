@@ -1,9 +1,9 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ProfesorEntity } from './profesor.entity';
 import { ProfesorDto } from './profesor.dto';
-import { PropuestaEntity } from 'src/propuesta/propuesta.entity';
+import { PropuestaEntity } from '../propuesta/propuesta.entity';
 
 @Injectable()
 export class ProfesorService {
@@ -35,7 +35,7 @@ export class ProfesorService {
         const propuestas = profesor.propuestas
         for ( let i = 0; i < propuestas.length; i++ ) {
             const propuesta: PropuestaEntity = await this.propuestaRepository.findOne({where: {id: propuestas[i].id}, relations: ['proyecto', 'profesor']})
-            if (propuesta.proyecto !== null){
+            if (propuesta && propuesta.proyecto !== null){
                 throw new BadRequestException("No se puede borrar hay un proyecto asociado")
             }
 
@@ -46,15 +46,17 @@ export class ProfesorService {
 
       async deleteProfesorByCedula(cedula: number): Promise<String> {
         const profesor: ProfesorEntity = await this.profesorRepository.findOne({where: {cedula: cedula}, relations: ['propuestas']})
-        const propuestas = profesor.propuestas
-        for ( let i = 0; i < propuestas.length; i++ ) {
-            const propuesta: PropuestaEntity = await this.propuestaRepository.findOne({where: {id: propuestas[i].id}, relations: ['proyecto', 'profesor']})
-            if (propuesta.proyecto !== null){
-                throw new BadRequestException("No se puede borrar hay un proyecto asociado")
-            }
 
+        const propuestas = profesor.propuestas;
+        for (let i = 0; i < propuestas.length; i++) {
+            const propuesta: PropuestaEntity = await this.propuestaRepository.findOne({where: {id: propuestas[i].id}, relations: ['proyecto', 'profesor']});
+            if (propuesta && propuesta.proyecto !== null) {
+                throw new BadRequestException("No se puede borrar, hay un proyecto asociado");
+            }
         }
-        await this.profesorRepository.delete(cedula);
-        return "Profesor con cedula: " + cedula + " eliminado"
-      }
+        
+        await this.profesorRepository.remove(profesor);
+        return "Profesor con cedula: " + cedula + " eliminado";
+    }
+    
 }
