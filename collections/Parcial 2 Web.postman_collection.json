@@ -1,0 +1,1175 @@
+{
+	"info": {
+		"_postman_id": "f5342646-5870-43ae-aafd-34e733bc8fd7",
+		"name": "Parcial 2 Web",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25528734",
+		"_collection_link": "https://speeding-meteor-71005.postman.co/workspace/Team-Workspace~b429bed8-99fe-4d5f-8bc9-09c8bac2c64e/collection/25528734-f5342646-5870-43ae-aafd-34e733bc8fd7?action=share&source=collection_link&creator=25528734"
+	},
+	"item": [
+		{
+			"name": "Profesor",
+			"item": [
+				{
+					"name": "Crear Profesor con grupo de investigación válido",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var data = pm.response.json()\r",
+									"pm.globals.set(\"profesor_id\", data.id);\r",
+									"\r",
+									"pm.test(\"Status code is 201\", function () {\r",
+									"   pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"cedula\": 123,\r\n    \"nombre\": \"Samuel\",\r\n    \"grupoinvestigacion\": \"TICSW\",\r\n    \"numeroextension\": 123\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/profesor",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"profesor"
+							]
+						},
+						"description": "### Create Professor\n\nEsta petición se encarga de probar la creación de un profesor el cual cuenta con un grupo de investigación válido, ya sea TICSW, IMAGINE o COMIT.\n\n#### Request Body\n\n- cedula: (number) The identification number of the professor.\n    \n- nombre: (string) The name of the professor.\n    \n- grupoinvestigacion: (string) The research group to which the professor belongs.\n    \n- numeroextension: (number) The extension number of the professor.\n    \n\nExample:\n\n``` json\n{\n    \"cedula\": 123,\n    \"nombre\": \"Samuel\",\n    \"grupoinvestigacion\": \"TICSW\",\n    \"numeroextension\": 123\n}\n\n ```\n\n#### Response Body\n\nThe response body contains the details of the newly created professor.\n\nExample:\n\n``` json\n{\n    \"cedula\": 123,\n    \"nombre\": \"Samuel\",\n    \"grupoinvestigacion\": \"TICSW\",\n    \"numeroextension\": 123,\n    \"id\": 1\n}\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "Crear Profesor con grupo de investigación inválido",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"   pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"cedula\": 123,\r\n    \"nombre\": \"Samuel\",\r\n    \"grupoinvestigacion\": \"INVALIDO\",\r\n    \"numeroextension\": 123\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/profesor",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"profesor"
+							]
+						},
+						"description": "Esta petición se encarga de probar la creación de un profesor con un grupo de investigación inválido por ejemplo INVALIDO y verificar que la respuesta sea un excpeción indicando que el grupo de investigación es inválido.\n\n### Response\n\nThe response for this request is a JSON schema, indicating the structure of the response body.\n\n``` json\n{\n    \"message\": \"El grupo de investigacion esta mal\",\n    \"error\": \"Bad Request\",\n    \"statusCode\": 400\n}\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "Crear Propuesta",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var data = pm.response.json()\r",
+									"pm.globals.set(\"propuesta_id\", data.id);\r",
+									"\r",
+									"pm.test(\"Status code is 201\", function () {\r",
+									"   pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"titulo\": \"Prueba propuesta\",\r\n    \"descripcion\":\"Desc\",\r\n    \"palabraclave\": \"PROGRAMACION\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/propuesta",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"propuesta"
+							]
+						},
+						"description": "### Create Proposal\n\nEsta petición se encarga de crear una propuesta para probar la lógica de borrar un profesor que tenga una porpuesta con un proyecto asociado.\n\n#### Request Body\n\n- `titulo` (string, required): The title of the proposal.\n    \n- `descripcion` (string, required): The description of the proposal.\n    \n- `palabraclave` (string, required): The keyword associated with the proposal.\n    \n\n#### Response\n\nThe response will be in JSON format with the following schema:\n\n``` json\n{\n    \"titulo\": \"Prueba propuesta\",\n    \"descripcion\":\"Desc\",\n    \"palabraclave\": \"PROGRAMACION\",\n    \"id\": 1\n}\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "Crear Proyecto",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var data = pm.response.json()\r",
+									"pm.globals.set(\"proyecto_id\", data.id);\r",
+									"\r",
+									"pm.test(\"Status code is 201\", function () {\r",
+									"   pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"fechaInicio\": \"2024-01-01\",\r\n    \"fechaFin\": \"2024-01-02\",\r\n    \"URL\": \"www.ejemplo.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/proyecto",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"proyecto"
+							]
+						},
+						"description": "### Proyecto Creation\n\nEsta petición se encarga de crear un proyecto para probar la lógica de borrar un profesor que tenga una porpuesta con un proyecto asociado.\n\n#### Request Body\n\n- `fechaInicio` (string, optional): The start date of the proyecto.\n    \n- `fechaFin` (string, optional): The end date of the proyecto.\n    \n- `URL` (string, optional): The URL associated with the proyecto.\n    \n\n#### Response\n\nThe response for this request is a JSON object following the schema below:\n\n``` json\n{\n    \"fechaInicio\": \"2024-01-01\",\n    \"fechaFin\": \"2024-01-02\",\n    \"URL\": \"www.ejemplo.com\",\n    \"id\": 1\n}\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "Agregar proyecto a propuesta",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"   pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/proyecto-propuesta/{{proyecto_id}}/{{propuesta_id}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"proyecto-propuesta",
+								"{{proyecto_id}}",
+								"{{propuesta_id}}"
+							]
+						},
+						"description": "Esta petición lo que hace es agregar un proyecto a una propuesta, dado los id del proyecto y de la porpuesta como parametros.\n\n### Request URL\n\n`POST http://localhost:3000/proyecto-propuesta/{{proyecto_id}}/{{propuesta_id}}`\n\n### Response\n\nThe response is in JSON format with the following schema:\n\n``` json\n{\n    \"id\": 1,\n    \"titulo\": \"Prueba propuesta\",\n    \"descripcion\": \"Desc\",\n    \"palabraclave\": \"PROGRAMACION\",\n    \"proyecto\": {\n        \"id\": 1,\n        \"fechaInicio\": \"2024-01-01T05:00:00.000Z\",\n        \"fechaFin\": \"2024-01-02T05:00:00.000Z\",\n        \"URL\": \"www.ejemplo.com\",\n        \"estudiante\": null,\n        \"propuesta\": {\n            \"id\": 1,\n            \"titulo\": \"Prueba propuesta\",\n            \"descripcion\": \"Desc\",\n            \"palabraclave\": \"PROGRAMACION\"\n        }\n    },\n    \"profesor\": null\n}\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "Agregar propuesta a profesor",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"   pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/profesor-propuesta/{{profesor_id}}/{{propuesta_id}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"profesor-propuesta",
+								"{{profesor_id}}",
+								"{{propuesta_id}}"
+							]
+						},
+						"description": "Esta petición lo que hace es agregar unaporpeusta a un profesor, dado los id del proyecto y del profesor como parametros.\n\n### Response\n\nThe response returns a JSON object with the following schema:\n\n``` json\n{\n    \"id\": 1,\n    \"cedula\": 123,\n    \"nombre\": \"Samuel\",\n    \"grupoinvestigacion\": \"TICSW\",\n    \"numeroextension\": 123,\n    \"propuestas\": [\n        {\n            \"id\": 1,\n            \"titulo\": \"Prueba propuesta\",\n            \"descripcion\": \"Desc\",\n            \"palabraclave\": \"PROGRAMACION\",\n            \"proyecto\": {\n                \"id\": 1,\n                \"fechaInicio\": \"2024-01-01T05:00:00.000Z\",\n                \"fechaFin\": \"2024-01-02T05:00:00.000Z\",\n                \"URL\": \"www.ejemplo.com\"\n            },\n            \"profesor\": null\n        }\n    ]\n}\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Profesor por Id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"   pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/profesor/{{profesor_id}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"profesor",
+								"{{profesor_id}}"
+							]
+						},
+						"description": "Este endpoint realiza una petición que obtiene un profesor dado un Id.\n\nThe response is in JSON format and has the following schema:\n\n``` json\n{\n    \"id\": 1,\n    \"cedula\": 123,\n    \"nombre\": \"Samuel\",\n    \"grupoinvestigacion\": \"TICSW\",\n    \"numeroextension\": 123,\n    \"propuestas\": [\n        {\n            \"id\": 1,\n            \"titulo\": \"Prueba propuesta\",\n            \"descripcion\": \"Desc\",\n            \"palabraclave\": \"PROGRAMACION\"\n        }\n    ]\n}\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener Profesor con Id Inexistente",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"   pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var responseBody = pm.response.text();\r",
+									"\r",
+									"pm.test(\"La respuesta debe ser null\", function () {\r",
+									"    pm.expect(responseBody).to.be.oneOf(['', 'null']);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/profesor/0",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"profesor",
+								"0"
+							]
+						},
+						"description": "Este endpoint obtiene un profesor dao un id el cual no existe en la base de datos, comprobando que la respuesta sea null."
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar Profesor Por Id con proyecto",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"   pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/profesor/id/{{profesor_id}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"profesor",
+								"id",
+								"{{profesor_id}}"
+							]
+						},
+						"description": "Esta petición intenta borrar un profesor el cual ya tiene una propuesta con un proyecto asociado, por lo se quiere comprobar la lógica y verificar que no se pueda borrar.\n\n### Response\n\nThe response returns a status code of 400 and the content type is application/json. The response body follows the JSON schema below:\n\n``` json\n{\n    \"message\": \"No se puede borrar hay un proyecto asociado\",\n    \"error\": \"Bad Request\",\n    \"statusCode\": 400\n}\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "Crear Profesor sin proyecto",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var data = pm.response.json()\r",
+									"pm.globals.set(\"profesor_id\", data.id);\r",
+									"\r",
+									"pm.test(\"Status code is 201\", function () {\r",
+									"   pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"cedula\": 123,\r\n    \"nombre\": \"Samuel\",\r\n    \"grupoinvestigacion\": \"TICSW\",\r\n    \"numeroextension\": 123\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/profesor",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"profesor"
+							]
+						},
+						"description": "### Create Professor\n\nEste endpint crear un nuevo profesor pero sin ningún proyecto asociado para probar la lógica de borrar un profesor que no tenga un proyecto asociado.\n\n#### Request Body\n\n- cedula (number): The identification number of the professor.\n    \n- nombre (string): The name of the professor.\n    \n- grupoinvestigacion (string): The research group associated with the professor.\n    \n- numeroextension (number): The extension number of the professor.\n    \n\n#### Response (application/json)\n\nThe response will be a JSON object with the following fields:\n\n- cedula (number): The identification number of the professor.\n    \n- nombre (string): The name of the professor.\n    \n- grupoinvestigacion (string): The research group associated with the professor.\n    \n- numeroextension (number): The extension number of the professor.\n    \n- id (number): The unique identifier assigned to the newly created professor.\n    \n\n``` json\n{\n    \"cedula\": 123,\n    \"nombre\": \"Samuel\",\n    \"grupoinvestigacion\": \"TICSW\",\n    \"numeroextension\": 123,\n    \"id\": 2\n}\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar Profesor Por Id sin proyecto",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"   pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var responseBody = pm.response.text();\r",
+									"let idprofesor = pm.globals.get(\"profesor_id\");\r",
+									"\r",
+									"pm.test(\"La respuesta debe ser el id del profesor eliminado\", function () {\r",
+									"    pm.expect(responseBody).to.eql(\"Profesor \" + idprofesor + \" eliminado\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/profesor/id/{{profesor_id}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"profesor",
+								"id",
+								"{{profesor_id}}"
+							]
+						},
+						"description": "Este endpoint borra un profesor el cual no tiene un proyecto asociado.\n\nEl response es un string indicando el id del porfesor que se eliminó"
+					},
+					"response": []
+				},
+				{
+					"name": "Crear Profesor para eliminarlo con la cédula",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var data = pm.response.json()\r",
+									"pm.globals.set(\"profesor_cedula\", data.cedula);\r",
+									"\r",
+									"pm.test(\"Status code is 201\", function () {\r",
+									"   pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"cedula\": 321,\r\n    \"nombre\": \"Juan\",\r\n    \"grupoinvestigacion\": \"TICSW\",\r\n    \"numeroextension\": 123\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/profesor",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"profesor"
+							]
+						},
+						"description": "### Profesor Creation\n\nEste endpoint crea un profesor nuevo para probar posteriormente el endpoint de borrar el profesor por su cedula.\n\n#### Request Body\n\n- cedula (number, required): The identification number of the professor.\n    \n- nombre (string, required): The name of the professor.\n    \n- grupoinvestigacion (string, required): The research group of the professor.\n    \n- numeroextension (number, required): The extension number of the professor.\n    \n\n#### Response (JSON Schema)\n\n``` json\n{\n    \"cedula\": 321,\n    \"nombre\": \"Juan\",\n    \"grupoinvestigacion\": \"TICSW\",\n    \"numeroextension\": 123,\n    \"id\": 3\n}\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar Profesor por cedula",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"   pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var responseBody = pm.response.text();\r",
+									"let cedulaprofesor = pm.globals.get(\"profesor_cedula\");\r",
+									"\r",
+									"pm.test(\"La respuesta debe ser la cedula del profesor eliminado\", function () {\r",
+									"    pm.expect(responseBody).to.eql(\"Profesor con cedula: \" + cedulaprofesor + \" eliminado\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/profesor/cedula/{{profesor_cedula}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"profesor",
+								"cedula",
+								"{{profesor_cedula}}"
+							]
+						},
+						"description": "Este endpoint se encargar de borrar un profesor dado su número de cédula.  \n\nEl response es un string indicando el numero de cedula del profesor que se eliminó"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Propuesta",
+			"item": [
+				{
+					"name": "Crear Propuesta con título valido",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var data = pm.response.json()\r",
+									"pm.globals.set(\"propuesta_id\", data.id);\r",
+									"\r",
+									"pm.test(\"Status code is 201\", function () {\r",
+									"   pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"titulo\": \"Prueba propuesta\",\r\n    \"descripcion\":\"Desc\",\r\n    \"palabraclave\": \"PROGRAMACION\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/propuesta",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"propuesta"
+							]
+						},
+						"description": "Este endpoint lo que hace es probar la creación de una propuesta utlizando un titulo válido o sea que no sea vacío.\n\n### Request Body\n\n- `titulo`: (string) The title of the proposal.\n    \n- `descripcion`: (string) The description of the proposal.\n    \n- `palabraclave`: (string) The keyword of the proposal.\n    \n\n### Response\n\nUpon successful creation, the server responds with a status code of 201 and a JSON object containing the `titulo`, `descripcion`, `palabraclave`, and the `id` of the newly created proposal.\n\nExample:\n\n``` json\n{\n    \"titulo\": \"Prueba propuesta\",\n    \"descripcion\": \"Desc\",\n    \"palabraclave\": \"PROGRAMACION\",\n    \"id\": 2\n}\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "Crear propuesta con título vacío",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"   pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"titulo\": \"\",\r\n\"descripcion\":\"Desc\",\r\n\"palabraclave\": \"PROGRAMACION\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/propuesta",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"propuesta"
+							]
+						},
+						"description": "Este endopint lo que hace es probar la creación de una propuesta con un nombre inválido o sea un nombre vacío.\n\n### Request Body\n\n- **titulo** (string, required): The title of the proposal.\n    \n- **descripcion** (string, required): The description of the proposal.\n    \n- **palabraclave** (string, required): The keyword associated with the proposal.\n    \n\n### Response\n\nThe response returns a status code of 400 and the content type is JSON. The response body follows the JSON schema below:\n\n``` json\n{\n    \"message\": \"El titulo no puede ser vacio\",\n    \"error\": \"Bad Request\",\n    \"statusCode\": 400\n}\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "Crear Proyecto para propuesta",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var data = pm.response.json()\r",
+									"pm.globals.set(\"proyecto_id\", data.id);\r",
+									"\r",
+									"pm.test(\"Status code is 201\", function () {\r",
+									"   pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"fechaInicio\": \"2024-01-01\",\r\n    \"fechaFin\": \"2024-01-02\",\r\n    \"URL\": \"www.ejemplo.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/proyecto",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"proyecto"
+							]
+						},
+						"description": "Este endpoint se encarga de crear un proyecto para luego ser agregado a una propuesta.\n\n#### Request Body\n\n- `fechaInicio` (string, optional): The start date of the proyecto.\n    \n- `fechaFin` (string, optional): The end date of the proyecto.\n    \n- `URL` (string, optional): The URL associated with the proyecto.\n    \n\n#### Response\n\nThe response is in JSON format with the following schema:\n\n``` json\n{\n    \"fechaInicio\": \"2024-01-01\",\n    \"fechaFin\": \"2024-01-02\",\n    \"URL\": \"www.ejemplo.com\",\n    \"id\": 2\n}\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "Agregar Proyecto a Propuesta",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"   pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/proyecto-propuesta/{{proyecto_id}}/{{propuesta_id}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"proyecto-propuesta",
+								"{{proyecto_id}}",
+								"{{propuesta_id}}"
+							]
+						},
+						"description": "Este método POST lo que hace es agregar un proyecto a una propuesta dados los Ids de cada uno como parámetros.\n\nThe response returns a JSON object with the following schema:\n\n``` json\n{\n    \"id\": 2,\n    \"titulo\": \"Prueba propuesta\",\n    \"descripcion\": \"Desc\",\n    \"palabraclave\": \"PROGRAMACION\",\n    \"proyecto\": {\n        \"id\": 2,\n        \"fechaInicio\": \"2024-01-01T05:00:00.000Z\",\n        \"fechaFin\": \"2024-01-02T05:00:00.000Z\",\n        \"URL\": \"www.ejemplo.com\",\n        \"estudiante\": null,\n        \"propuesta\": null\n    },\n    \"profesor\": null\n}\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener todas las propuestas",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"   pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/propuesta/all",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"propuesta",
+								"all"
+							]
+						},
+						"description": "Este endpoint devuelve todas las propuestas de la base de datos.\n\nBelow is the JSON schema for the response:\n\n``` json\n[\n    {\n        \"id\": 1,\n        \"titulo\": \"Prueba propuesta\",\n        \"descripcion\": \"Desc\",\n        \"palabraclave\": \"PROGRAMACION\",\n        \"proyecto\": {\n            \"id\": 1,\n            \"fechaInicio\": \"2024-01-01T05:00:00.000Z\",\n            \"fechaFin\": \"2024-01-02T05:00:00.000Z\",\n            \"URL\": \"www.ejemplo.com\"\n        },\n        \"profesor\": {\n            \"id\": 1,\n            \"cedula\": 123,\n            \"nombre\": \"Samuel\",\n            \"grupoinvestigacion\": \"TICSW\",\n            \"numeroextension\": 123\n        }\n    },\n    {\n        \"id\": 2,\n        \"titulo\": \"Prueba propuesta\",\n        \"descripcion\": \"Desc\",\n        \"palabraclave\": \"PROGRAMACION\",\n        \"proyecto\": {\n            \"id\": 2,\n            \"fechaInicio\": \"2024-01-01T05:00:00.000Z\",\n            \"fechaFin\": \"2024-01-02T05:00:00.000Z\",\n            \"URL\": \"www.ejemplo.com\"\n        },\n        \"profesor\": null\n    }\n]\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "Borrar propuesta con Id con proyecto",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"   pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/propuesta/{{propuesta_id}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"propuesta",
+								"{{propuesta_id}}"
+							]
+						},
+						"description": "### Delete Proposal\n\nEste enpoint prueba borrar una propuesta la cual tiene asociada un proyecto mostrando que no se puede borrar y devuelve una excepción.\n\n#### Response\n\n{  \n\"message\": \"No se puede borrar porque tiene un proyecto\",  \n\"error\": \"Bad Request\",  \n\"statusCode\": 400  \n}"
+					},
+					"response": []
+				},
+				{
+					"name": "Crear Propuesta sin proyecto",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var data = pm.response.json()\r",
+									"pm.globals.set(\"propuesta_id\", data.id);\r",
+									"\r",
+									"pm.test(\"Status code is 201\", function () {\r",
+									"   pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"titulo\": \"Prueba propuesta\",\r\n    \"descripcion\":\"Desc\",\r\n    \"palabraclave\": \"PROGRAMACION\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/propuesta",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"propuesta"
+							]
+						},
+						"description": "### POST /propuesta\n\nEste endpoint crea una propuesta sin proyecto asociado para luego probar el método de DELETE.\n\n#### Request\n\nThe request should be sent as an HTTP POST to `http://localhost:3000/propuesta` with the following JSON payload in the request body:\n\n| Parameter | Type | Description |\n| --- | --- | --- |\n| titulo | string | The title of the proposal. |\n| descripcion | string | The description of the proposal. |\n| palabraclave | string | The keyword associated with the proposal. |\n\n#### Response\n\nThe response will be a JSON object with the following schema:\n\n``` json\n{\n    \"titulo\": \"Prueba propuesta\",\n    \"descripcion\": \"Desc\",\n    \"palabraclave\": \"PROGRAMACION\",\n    \"id\": 3\n}\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "Borrar propuesta con Id sin proyecto",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"   pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var responseBody = pm.response.text();\r",
+									"let idpropuesta = pm.globals.get(\"propuesta_id\");\r",
+									"\r",
+									"pm.test(\"La respuesta debe ser el id de la propuesta eliminada\", function () {\r",
+									"    pm.expect(responseBody).to.eql(\"Propuesta \" + idpropuesta + \" eliminado\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/propuesta/{{propuesta_id}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"propuesta",
+								"{{propuesta_id}}"
+							]
+						},
+						"description": "Este endpoint lo que hace es probar el borrado de una propuesta que no tiene proyectos asociados.\n\nEl response es un string con el id de la propuesta eliminada"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Estudiante",
+			"item": [
+				{
+					"name": "Crear estudiante con código estudiante válido",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var data = pm.response.json()\r",
+									"pm.globals.set(\"estudiante_id\", data.id);\r",
+									"\r",
+									"pm.test(\"Status code is 201\", function () {\r",
+									"   pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"Samuel\",\r\n    \"codigoestudiante\": \"2021225955\",\r\n    \"creditosaprobados\": 20\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/estudiante",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"estudiante"
+							]
+						},
+						"description": "### POST /estudiante\n\nEste endpoint prueba el crear un nuevo estudiante con un código válido o sea que tenga una longitud de 10\n\n#### Request\n\nThe request should be sent as an HTTP POST to `http://localhost:3000/estudiante`. The request body should be in JSON format and include the following parameters:\n\n- `nombre` (string, required): The name of the student.\n    \n- `codigoestudiante` (string, required): The student's code.\n    \n- `creditosaprobados` (number, required): The number of credits approved for the student.\n    \n\n#### Response\n\nUpon successful creation of the student record, the API returns a JSON response with the following schema:\n\n``` json\n{\n    \"nombre\": \"Samuel\",\n    \"codigoestudiante\": \"2021225955\",\n    \"creditosaprobados\": 20,\n    \"id\": 1\n}\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "Crear estudiante con código estudiante inválido (longitud diferente de 10)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"   pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"Samuel\",\r\n    \"codigoestudiante\": \"123\",\r\n    \"creditosaprobados\": 20\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/estudiante",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"estudiante"
+							]
+						},
+						"description": "Este endpoint lo que hace es intentan crar un estudiante co nun código inválido,para probar si lanza una excepción con el mensaje indicando el error.\n\n### Request Body\n\nThe request body should be in raw format and include the following parameters:\n\n- `nombre` (string): The name of the student.\n    \n- `codigoestudiante` (string): The student's unique code.\n    \n- `creditosaprobados` (number): The number of credits approved for the student.\n    \n\n### Response\n\n``` json\n{\n    \"message\": \"El codigo debe tener 10 caracteres\",\n    \"error\": \"Bad Request\",\n    \"statusCode\": 400\n}\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener estudiante por Id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"   pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/estudiante/{{estudiante_id}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"estudiante",
+								"{{estudiante_id}}"
+							]
+						},
+						"description": "Este endpoint lo que hace es obtener un estudiante dado un Id.\n\n### Response\n\nThe response is in JSON format and has the following schema:\n\n``` json\n{\n    \"id\": 1,\n    \"nombre\": \"Samuel\",\n    \"codigoestudiante\": \"2021225955\",\n    \"creditosaprobados\": 20,\n    \"proyecto\": null\n}\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener estudiante con Id Inexsitente",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"   pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var responseBody = pm.response.text();\r",
+									"\r",
+									"pm.test(\"La respuesta debe ser null\", function () {\r",
+									"    pm.expect(responseBody).to.be.oneOf(['', 'null']);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/estudiante/0",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"estudiante",
+								"0"
+							]
+						},
+						"description": "Este endpoint prueba obtener un estudiante el cual no exista en la base de datos y se verifica que el response se null."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Proyecto",
+			"item": [
+				{
+					"name": "Crear Proyecto con fecha de fin posterior a la fecha de inicio",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var data = pm.response.json()\r",
+									"pm.globals.set(\"proyecto_id\", data.id);\r",
+									"\r",
+									"pm.test(\"Status code is 201\", function () {\r",
+									"   pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"fechaInicio\": \"2024-01-01\",\r\n    \"fechaFin\": \"2024-01-02\",\r\n    \"URL\": \"www.ejemplo.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/proyecto",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"proyecto"
+							]
+						},
+						"description": "### POST /proyecto\n\nEste endpoint crea un uevo proyecot donde la fechaFin sea mayor a la fechaInicio para probar su buen funcionamiento.\n\n#### Request\n\nThe request should be sent as an HTTP POST to the specified URL with the following parameters in the request body:\n\n- `fechaInicio` (string, required): The start date of the project.\n    \n- `fechaFin` (string, required): The end date of the project.\n    \n- `URL` (string, required): The URL of the project.\n    \n\n#### Response\n\n``` json\n{\n    \"fechaInicio\": \"2024-01-01\",\n    \"fechaFin\": \"2024-01-02\",\n    \"URL\": \"www.ejemplo.com\",\n    \"id\": 3\n}\n\n ```"
+					},
+					"response": []
+				},
+				{
+					"name": "Crear Proyecto con fecha de fin inferior a la fecha de inicio",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"   pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"fechaInicio\": \"2024-12-01\",\r\n    \"fechaFin\": \"2024-01-01\",\r\n    \"URL\": \"www.ejemplo.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/proyecto",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"proyecto"
+							]
+						},
+						"description": "### POST /proyecto\n\nEste endpoint prueba la creación de un proyecto en el que la fechaFin sea menor que la fechaInicio, esperando que se muestre una excpecion con el mensaje indicando el error.\n\n#### Request Body\n\n- `fechaInicio` (string, required): The start date of the project.\n    \n- `fechaFin` (string, required): The end date of the project.\n    \n- `URL` (string, required): The URL associated with the project.\n    \n\n#### Response\n\n``` json\n{\n    \"message\": \"La fecha fin debe ser mayor a la fecha inicio\",\n    \"error\": \"Bad Request\",\n    \"statusCode\": 400\n}\n\n ```"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
