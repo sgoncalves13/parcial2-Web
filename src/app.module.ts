@@ -10,9 +10,11 @@ import { EstudianteEntity } from './estudiante/estudiante.entity';
 import { ProfesorEntity } from './profesor/profesor.entity';
 import { PropuestaEntity } from './propuesta/propuesta.entity';
 import { ProyectoEntity } from './proyecto/proyecto.entity';
+import { ProyectoPropuestaModule } from './proyecto-propuesta/proyecto-propuesta.module';
+import { ProfesorPropuestaModule } from './profesor-propuesta/profesor-propuesta.module';
 
 @Module({
-  imports: [ EstudianteModule, ProfesorModule, PropuestaModule, ProyectoModule,
+  imports: [ EstudianteModule, ProfesorModule, PropuestaModule, ProyectoModule, ProyectoPropuestaModule,
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: 'localhost',
@@ -29,6 +31,8 @@ import { ProyectoEntity } from './proyecto/proyecto.entity';
     EstudianteModule,
     PropuestaModule,
     ProyectoModule,
+    ProyectoPropuestaModule,
+    ProfesorPropuestaModule,
   ],
   controllers: [AppController],
   providers: [AppService],
